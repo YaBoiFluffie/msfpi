@@ -6,6 +6,12 @@ cd metasploit-framework
 sudo gem install wirble sqlite3 bundler nokogiri
 sudo gem install bundle
 sudo bundle install
-sudo service postgresql start
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+# sudo service postgresql start
 ./msfdb init
 ./msfconsole
+# nano .bashrc
+# export PATH=$PATH:/opt/Apps/metasploit-framework/msfvenom
+# export PATH=$PATH:/opt/Apps/metasploit-framework/msfconsole
+# export PATH=$PATH:/opt/Apps/metasploit-framework/msfdb
