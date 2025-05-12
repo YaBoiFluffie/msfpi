@@ -4,7 +4,7 @@ mkdir -p /opt/Apps
 cd /opt/Apps
 git clone --recursive https://github.com/rapid7/metasploit-framework
 cd metasploit-framework
-sudo gem install wirble sqlite3 bundler nokogiri
+sudo gem install wirble sqlite3 bundler nokogiri xmlrpc
 sudo gem install bundle
 sudo bundle install
 sudo systemctl enable postgresql
