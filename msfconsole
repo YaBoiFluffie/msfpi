@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Skript benötigt sudo-Rechte
+if [ "$EUID" -ne 0 ]; then
+  echo "Bitte führe dieses Skript mit sudo aus."
+  exit 1
+fi
+
+# Pfad zu Metasploit-Tools
+METASPLOIT_DIR="/opt/Apps/metasploit-framework"
+
+# Prüfen, ob msfdb läuft
+echo "Prüfe, ob msfdb läuft..."
+if ! pgrep -f "msfdb" >/dev/null 2>&1; then
+  echo "msfdb läuft nicht. Starte msfdb..."
+  
+  # msfdb starten
+  "$METASPLOIT_DIR/msfdb" start
+
+  # Überprüfen, ob der Dienst erfolgreich gestartet wurde
+  if [ $? -ne 0 ]; then
+    echo "Fehler beim Starten von msfdb. Bitte überprüfe die Installation."
+    exit 1
+  fi
+  
+  echo "msfdb erfolgreich gestartet."
+else
+  echo "msfdb läuft bereits."
+fi
+
+# Metasploit mit msrpc starten
+echo "Starte Metasploit mit msrpc..."
+"$METASPLOIT_DIR/msfconsole" -x "load msgrpc"
+
+# Überprüfen, ob Metasploit erfolgreich gestartet wurde
+if [ $? -eq 0 ]; then
+  echo "Metasploit erfolgreich gestartet."
+else
+  echo "Fehler beim Starten von Metasploit."
+  exit 1
+fi
